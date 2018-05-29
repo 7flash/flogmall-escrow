@@ -12,7 +12,7 @@ contract Escrows {
         uint256 _value;
     }
 
-    mapping (uint256 => Escrow) public escrows;
+    mapping (bytes32 => Escrow) public escrows;
 
     modifier onlyOwner() {
         require(owner == msg.sender);
@@ -37,7 +37,7 @@ contract Escrows {
     ) external payable {
         require(msg.value == _value);
 
-        uint256 hash = keccak256(_orderID, _buyer, _seller);
+        bytes32 hash = keccak256(_orderID, _buyer, _seller);
 
         require(escrows[hash].exists == false);
 
@@ -51,7 +51,7 @@ contract Escrows {
         address _buyer,
         address _seller
     ) external {
-        uint256 hash = keccak256(_orderID, _buyer, _seller);
+        bytes32 hash = keccak256(_orderID, _buyer, _seller);
 
         Escrow memory escrow = escrows[hash];
 
