@@ -6,7 +6,7 @@ contract Escrows {
 
     struct Escrow {
         bool exists;
-        uint32 _orderID;
+        uint256 _orderID;
         address _buyer;
         address _seller;
         uint256 _value;
@@ -30,14 +30,14 @@ contract Escrows {
     }
 
     function createEscrow(
-        uint32 _orderID,
+        uint256 _orderID,
         address _buyer,
         address _seller,
         uint256 _value
     ) external payable {
         require(msg.value == _value);
 
-        bytes32 hash = keccak256(_orderID, _buyer, _seller);
+        bytes32 hash = keccak256(uint256(_orderID), _buyer, _seller);
 
         require(escrows[hash].exists == false);
 
@@ -47,11 +47,11 @@ contract Escrows {
     }
 
     function transferMoney(
-        uint32 _orderID,
+        uint256 _orderID,
         address _buyer,
         address _seller
     ) external {
-        bytes32 hash = keccak256(_orderID, _buyer, _seller);
+        bytes32 hash = keccak256(uint256(_orderID), _buyer, _seller);
 
         Escrow memory escrow = escrows[hash];
 
